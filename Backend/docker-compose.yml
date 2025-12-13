@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: artisan
+      POSTGRES_USER: artisan
+      POSTGRES_PASSWORD: artisan
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "postgres"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/artisan"
+      SPRING_DATASOURCE_USERNAME: "artisan"
+      SPRING_DATASOURCE_PASSWORD: "artisan"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
