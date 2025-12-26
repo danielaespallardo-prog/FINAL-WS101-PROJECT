@@ -54,6 +54,38 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     updateCartCount();
     checkLoginStatus();
+
+    // Add image preview logic for Add Product form
+    const imgInput = document.getElementById('product-image');
+    if (imgInput) {
+        imgInput.addEventListener('change', function() {
+            const file = this.files && this.files[0];
+            const wrapper = document.getElementById('product-image-preview-wrapper');
+            const preview = document.getElementById('product-image-preview');
+            if (file && preview) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    if (wrapper) wrapper.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else if (wrapper) {
+                wrapper.style.display = 'none';
+                if (preview) preview.src = '';
+            }
+        });
+    }
+
+    // Keyboard support for nav toggle (Enter / Space)
+    const navToggle = document.querySelector('.nav-toggle');
+    if (navToggle) {
+        navToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMobileMenu();
+            }
+        });
+    }
 });
 
 function initializeApp() {
@@ -76,9 +108,9 @@ function initializeApp() {
         updateNavigation();
         showDashboard();
     }
-    
-    // Initialize products — now loaded from backend API
-    // products will be populated by loadProducts() via fetch
+
+    // Load persisted artisan products (if any)
+    loadSavedProducts();
     
     // Initialize sample orders for demo
     orders = [
@@ -101,42 +133,68 @@ function initializeApp() {
     ];
 }
 
-// Navigation Functions
-function showSection(sectionId) {
-    console.debug('showSection called', sectionId);
-    // Hide all sections
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    // Show requested section
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-        
-        // Load specific content based on section
-        switch(sectionId) {
-            case 'homepage':
-                loadFeaturedProducts();
-                loadArtisanStories();
-                break;
-            case 'consumer-dashboard':
-                loadConsumerFeed();
-                break;
-            case 'artisan-dashboard':
-                loadArtisanProducts();
-                loadArtisanOrders();
-                break;
-            case 'cart':
-                loadCartItems();
-                break;
-            case 'profile':
-                loadUserProfile();
-                break;
-        }
+// Persist products helpers
+function saveProductsToStorage() {
+    try {
+        // Save only custom products (those with customSaved flag)
+        const saved = products.filter(p => p._custom === true);
+        localStorage.setItem('artisan-saved-products', JSON.stringify(saved));
+    } catch (e) {
+        console.error('Error saving products to storage', e);
     }
 }
+
+function loadSavedProducts() {
+    try {
+        const raw = localStorage.getItem('artisan-saved-products');
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        // Merge saved products without duplicating ids
+        saved.forEach(sp => {
+            if (!products.find(p => p.id === sp.id)) {
+                products.unshift(sp); // put custom products first
+            }
+        });
+    } catch (e) {
+        console.error('Error loading saved products', e);
+    }
+}
+
+// Utility to show inline messages in forms
+function showFormMessage(id, message, type = 'error') {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = message;
+    el.classList.remove('error', 'success');
+    el.classList.add(type);
+    // Auto-clear after a while
+    setTimeout(() => {
+        el.textContent = '';
+        el.classList.remove('error', 'success');
+    }, 5000);
+}
+
+// Update mobile menu toggle to manage aria-expanded
+function toggleMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    const toggle = document.querySelector('.nav-toggle');
+    navMenu.classList.toggle('active');
+    const expanded = navMenu.classList.contains('active');
+    if (toggle) toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+}
+
+// Ensure mobile menu closes when changing sections
+function closeMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    const toggle = document.querySelector('.nav-toggle');
+    if (navMenu && navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+}
+
+// Navigation Functions
+// showSection is implemented once later in this file to avoid duplicates.
 
 function toggleMobileMenu() {
     const navMenu = document.getElementById('nav-menu');
@@ -160,27 +218,46 @@ function updateNavigation() {
 }
 
 // Authentication Functions
-function setRole(role) {
+function setRole(role, ev) {
     selectedRole = role;
-    
+
     // Update UI to show selected role
     const roleButtons = document.querySelectorAll('.role-btn');
     roleButtons.forEach(btn => btn.classList.remove('selected'));
-    event.target.closest('.role-btn').classList.add('selected');
-    
+
+    // Prefer the event's clicked button, fallback to data-role lookup
+    let btnEl = null;
+    if (ev && ev.target) {
+        btnEl = ev.target.closest('.role-btn');
+    }
+    if (!btnEl) {
+        btnEl = document.querySelector(`.role-btn[data-role="${role}"]`);
+    }
+    if (btnEl) btnEl.classList.add('selected');
+
     // Show login inputs
-    document.getElementById('login-inputs').style.display = 'block';
+    const li = document.getElementById('login-inputs');
+    if (li) li.style.display = 'block';
+    // clear any login form message
+    const loginMsg = document.getElementById('login-message');
+    if (loginMsg) { loginMsg.textContent = ''; loginMsg.classList.remove('error','success'); }
 }
 
 function login() {
     const email = document.getElementById('email-input').value;
     const password = document.getElementById('password-input').value;
-    
-    if (!email || !password || !selectedRole) {
-        showMessage('Please fill in all fields and select a role.', 'error');
+    const loginMsgId = 'login-message';
+
+    if (!selectedRole) {
+        showFormMessage(loginMsgId, 'Please select a role before signing in.', 'error');
         return;
     }
-    
+
+    if (!email || !password) {
+        showFormMessage(loginMsgId, 'Please enter both email and password.', 'error');
+        return;
+    }
+
     // Simulate login (in real app, this would validate credentials)
     currentUser = {
         id: Date.now(),
@@ -188,20 +265,21 @@ function login() {
         name: email.split('@')[0],
         joinDate: new Date().toLocaleDateString()
     };
-    
+
     currentRole = selectedRole;
-    
+
     // Save to localStorage
     localStorage.setItem('artisan-user', JSON.stringify(currentUser));
     localStorage.setItem('artisan-role', currentRole);
-    
+
     // Update navigation
     updateNavigation();
-    
+
     // Show appropriate dashboard
     showDashboard();
-    
-    showMessage(`Welcome back, ${currentUser.name}!`, 'success');
+
+    showFormMessage(loginMsgId, `Welcome back, ${currentUser.name}!`, 'success');
+    setTimeout(()=>{ document.getElementById('login-inputs').style.display = 'none'; }, 700);
 }
 
 function logout() {
@@ -254,6 +332,8 @@ function loadProducts() {
         })
         .then(data => {
             products = data;
+            // Merge any saved products
+            loadSavedProducts();
             // Re-render product sections that rely on products list
             loadFeaturedProducts();
             loadConsumerFeed();
@@ -264,6 +344,7 @@ function loadProducts() {
             console.error('Error fetching products:', err);
             // Fallback to sample products if backend not available
             products = [...sampleProducts];
+            loadSavedProducts();
             loadFeaturedProducts();
             loadConsumerFeed();
             loadArtisanProducts();
@@ -561,17 +642,21 @@ function createArtisanProductCard(product) {
     return card;
 }
 
-function showArtisanTab(tabName) {
+function showArtisanTab(tabName, ev) {
     // Update tab buttons
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
+    if (ev && ev.target) {
+        const clicked = ev.target.closest('.tab-btn');
+        if (clicked) clicked.classList.add('active');
+    }
+
     // Show tab content
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => content.classList.remove('active'));
-    document.getElementById(tabName).classList.add('active');
-    
+    const el = document.getElementById(tabName);
+    if (el) el.classList.add('active');
+
     // Load specific content
     switch(tabName) {
         case 'my-products':
@@ -629,33 +714,69 @@ function showAddProductModal() {
 
 document.getElementById('add-product-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    const name = document.getElementById('product-name').value;
-    const description = document.getElementById('product-description').value;
-    const price = parseFloat(document.getElementById('product-price').value);
-    const category = document.getElementById('product-category').value;
-    const story = document.getElementById('product-story').value;
-    
-    const newProduct = {
-        id: Date.now(),
-        name,
-        description,
-        price,
-        category,
-        story,
-        artisan: currentUser.name,
-        location: "Your Location",
-        inStock: true,
-        image: "🎨" // Default emoji, in real app would handle image upload
+
+    // Basic validation
+    const name = document.getElementById('product-name').value.trim();
+    const description = document.getElementById('product-description').value.trim();
+    const priceRaw = document.getElementById('product-price').value;
+    const price = priceRaw ? parseFloat(priceRaw) : 0;
+    const category = document.getElementById('product-category').value.trim();
+    const story = document.getElementById('product-story').value.trim();
+    const messageId = 'add-product-message';
+
+    if (!currentUser || currentRole !== 'artisan') {
+        showFormMessage(messageId, 'You must be logged in as an Artisan to add products.', 'error');
+        showSection('login');
+        return;
+    }
+
+    if (!name || !description || !price || price <= 0 || !category) {
+        showFormMessage(messageId, 'Please fill in all required fields with valid values.', 'error');
+        return;
+    }
+
+    const fileInput = document.getElementById('product-image');
+    const file = fileInput && fileInput.files && fileInput.files[0];
+
+    const pushProduct = function(imageData) {
+        const newProduct = {
+            id: Date.now(),
+            name,
+            description,
+            price,
+            category,
+            story,
+            artisan: currentUser ? currentUser.name : 'Artisan',
+            location: "Your Location",
+            inStock: true,
+            image: imageData || 'images/wlis.jpg',
+            _custom: true
+        };
+
+        products.unshift(newProduct);
+        saveProductsToStorage();
+        closeModal('add-product-modal');
+        loadArtisanProducts();
+        showFormMessage(messageId, 'Product added successfully!', 'success');
+
+        // Reset form
+        document.getElementById('add-product-form').reset();
+        const wrapper = document.getElementById('product-image-preview-wrapper');
+        if (wrapper) wrapper.style.display = 'none';
     };
-    
-    products.push(newProduct);
-    closeModal('add-product-modal');
-    loadArtisanProducts();
-    showMessage('Product added successfully!', 'success');
-    
-    // Reset form
-    document.getElementById('add-product-form').reset();
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            pushProduct(ev.target.result);
+        };
+        reader.onerror = function() {
+            showFormMessage(messageId, 'There was an error reading the image file.', 'error');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        pushProduct();
+    }
 });
 
 function editProduct(productId) {
@@ -664,11 +785,14 @@ function editProduct(productId) {
 }
 
 function deleteProduct(productId) {
-    if (confirm('Are you sure you want to delete this product?')) {
-        products = products.filter(p => p.id !== productId);
-        loadArtisanProducts();
-        showMessage('Product deleted successfully.', 'success');
-    }
+    // simple confirmation
+    const ok = confirm('Are you sure you want to delete this product?');
+    if (!ok) return;
+
+    products = products.filter(p => p.id !== productId);
+    saveProductsToStorage();
+    loadArtisanProducts();
+    showMessage('Product deleted successfully.', 'success');
 }
 
 // Admin Functions
@@ -1033,6 +1157,9 @@ function showSection(sectionId) {
         showAddProductModal();
         return;
     }
+
+    // Close mobile menu if open
+    closeMobileMenu();
     
     // Hide all sections
     const sections = document.querySelectorAll('.section');

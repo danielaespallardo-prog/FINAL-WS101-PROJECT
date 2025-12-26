@@ -1,14 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtisanHub - Local Artisan Marketplace</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation Header -->
     <nav class="navbar" id="navbar">
@@ -24,7 +27,7 @@
                     <i class="fas fa-info-circle"></i> About
                 </a>
                 <a href="#" class="nav-link" onclick="event.preventDefault(); showSection('products')">
-                    <i class="fas fa-store"></i> Products 
+                    <i class="fas fa-store"></i> Products
                 </a>
                 <a href="#" class="nav-link cart-link" onclick="event.preventDefault(); showSection('cart')">
                     <i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span>
@@ -39,7 +42,7 @@
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
-            <div class="nav-toggle" onclick="toggleMobileMenu()">
+            <div class="nav-toggle" role="button" tabindex="0" aria-controls="nav-menu" aria-expanded="false" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
@@ -50,9 +53,11 @@
         <div class="hero">
             <div class="hero-content">
                 <h1 class="hero-title">Discover Local Artisan Treasures</h1>
-                <p class="hero-subtitle">Connect with talented artisans in your community and find unique, handcrafted items</p>
+                <p class="hero-subtitle">Connect with talented artisans in your community and find unique, handcrafted
+                    items</p>
                 <div class="search-container">
-                    <input type="text" placeholder="Search for unique artisan products..." class="search-input" id="search-input">
+                    <input type="text" placeholder="Search for unique artisan products..." class="search-input"
+                        id="search-input">
                     <button class="search-btn" onclick="searchProducts()">
                         <i class="fas fa-search"></i>
                     </button>
@@ -80,17 +85,19 @@
         <div class="products-container">
             <h2>Filipino Artisan Products</h2>
             <p class="section-subtitle">Discover unique handcrafted items from the Philippines</p>
-            
-            <div class="products-grid">
+
+            <div class="products-grid" id="products-grid">
                 <!-- Product 1 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/1.jpg" alt="Maturan Pili Nuts" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/1.jpg" alt="Maturan Pili Nuts"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Maturan Pili Nuts</h3>
                         <p class="product-price">₱200.00</p>
-                        <p class="product-description">Premium roasted pili nuts with a rich, buttery taste. Fresh, crunchy, and perfect for healthy snacking.</p>
+                        <p class="product-description">Premium roasted pili nuts with a rich, buttery taste. Fresh,
+                            crunchy, and perfect for healthy snacking.</p>
                         <button class="btn btn-primary" onclick="addToCart(1)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -105,7 +112,8 @@
                     <div class="product-info">
                         <h3 class="product-name">Taro Chips</h3>
                         <p class="product-price">₱120.00</p>
-                        <p class="product-description">Crispy taro chips made from fresh taro roots. Lightly seasoned and perfect for snacking.</p>
+                        <p class="product-description">Crispy taro chips made from fresh taro roots. Lightly seasoned
+                            and perfect for snacking.</p>
                         <button class="btn btn-primary" onclick="addToCart(2)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -115,12 +123,14 @@
                 <!-- Product 3 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/3.jpg" alt="Wooden Salad Bowl" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/3.jpg" alt="Wooden Salad Bowl"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Pinyato</h3>
                         <p class="product-price">₱80.00</p>
-                        <p class="product-description">Sweet and crunchy Pinyato made from peanuts and sugar. A classic Filipino snack that’s simple, tasty, and perfect for sharing.</p>
+                        <p class="product-description">Sweet and crunchy Pinyato made from peanuts and sugar. A classic
+                            Filipino snack that’s simple, tasty, and perfect for sharing.</p>
                         <button class="btn btn-primary" onclick="addToCart(3)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -130,12 +140,14 @@
                 <!-- Product 4 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/4.jpg" alt="Silver Filigree Earrings" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/4.jpg" alt="Silver Filigree Earrings"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Abaniko</h3>
                         <p class="product-price">₱50.00</p>
-                        <p class="product-description">Lightweight and durable hand fan for instant cooling. Simple, portable, and perfect for everyday use or events.</p>
+                        <p class="product-description">Lightweight and durable hand fan for instant cooling. Simple,
+                            portable, and perfect for everyday use or events.</p>
                         <button class="btn btn-primary" onclick="addToCart(4)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -145,12 +157,14 @@
                 <!-- Product 5 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/5.jpg" alt="Abaca Woven Basket" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/5.jpg" alt="Abaca Woven Basket"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Handwoven Buri Hat </h3>
                         <p class="product-price">₱100.00</p>
-                        <p class="product-description">Handwoven buri hat made from natural palm leaves. Lightweight, breathable, and ideal for sun protection and daily wear.</p>
+                        <p class="product-description">Handwoven buri hat made from natural palm leaves. Lightweight,
+                            breathable, and ideal for sun protection and daily wear.</p>
                         <button class="btn btn-primary" onclick="addToCart(5)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -160,12 +174,14 @@
                 <!-- Product 6 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/6.jpg" alt="Malong Traditional Fabric" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/6.jpg" alt="Malong Traditional Fabric"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Floor Polish Coconut Scrub</h3>
                         <p class="product-price">₱95.00</p>
-                        <p class="product-description">Eco-friendly coconut scrub for floor polishing. Tough on dirt, gentle on surfaces, and reusable.</p>
+                        <p class="product-description">Eco-friendly coconut scrub for floor polishing. Tough on dirt,
+                            gentle on surfaces, and reusable.</p>
                         <button class="btn btn-primary" onclick="addToCart(6)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -175,7 +191,8 @@
                 <!-- Product 7 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/7.jpg" alt="Capiz Shell Wind Chime" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/7.jpg" alt="Capiz Shell Wind Chime"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Capiz Shell Wind Chime</h3>
@@ -190,7 +207,8 @@
                 <!-- Product 8 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/wlis.jpg" alt="Rattan Furniture Set" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/wlis.jpg" alt="Rattan Furniture Set"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Rattan Furniture Set</h3>
@@ -205,7 +223,8 @@
                 <!-- Product 9 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/oip/OIP.jpg" alt="Brass Decorative Plate" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/oip/OIP.jpg" alt="Brass Decorative Plate"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Brass Decorative Plate</h3>
@@ -220,7 +239,8 @@
                 <!-- Product 10 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/wlis.jpg" alt="Lumpia Clay Pot" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/wlis.jpg" alt="Lumpia Clay Pot"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Lumpia Clay Pot</h3>
@@ -235,12 +255,14 @@
                 <!-- Product 11 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/oip/OIP.jpg" alt="T'boli Beaded Necklace" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/oip/OIP.jpg" alt="T'boli Beaded Necklace"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">T'boli Beaded Necklace</h3>
                         <p class="product-price">₱520.00</p>
-                        <p class="product-description">Indigenous T'boli tribal beaded necklace with traditional patterns.</p>
+                        <p class="product-description">Indigenous T'boli tribal beaded necklace with traditional
+                            patterns.</p>
                         <button class="btn btn-primary" onclick="addToCart(11)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -250,12 +272,14 @@
                 <!-- Product 12 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/wlis.jpg" alt="Barong Tagalog Fabric" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/wlis.jpg" alt="Barong Tagalog Fabric"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Barong Tagalog Fabric</h3>
                         <p class="product-price">₱850.00</p>
-                        <p class="product-description">Premium hand-embroidered barong fabric for traditional Filipino wear.</p>
+                        <p class="product-description">Premium hand-embroidered barong fabric for traditional Filipino
+                            wear.</p>
                         <button class="btn btn-primary" onclick="addToCart(12)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -265,7 +289,8 @@
                 <!-- Product 13 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/oip/OIP.jpg" alt="Coconut Shell Bowls" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/oip/OIP.jpg" alt="Coconut Shell Bowls"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Coconut Shell Bowls</h3>
@@ -280,12 +305,14 @@
                 <!-- Product 14 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/wlis.jpg" alt="Piña Cloth Hand Fan" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/wlis.jpg" alt="Piña Cloth Hand Fan"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Piña Cloth Hand Fan</h3>
                         <p class="product-price">₱380.00</p>
-                        <p class="product-description">Beautiful hand fan made from delicate piña pineapple fiber cloth.</p>
+                        <p class="product-description">Beautiful hand fan made from delicate piña pineapple fiber cloth.
+                        </p>
                         <button class="btn btn-primary" onclick="addToCart(14)">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
@@ -295,7 +322,8 @@
                 <!-- Product 15 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="images/oip/OIP.jpg" alt="Inlaid Mother of Pearl Box" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="images/oip/OIP.jpg" alt="Inlaid Mother of Pearl Box"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Inlaid Mother of Pearl Box</h3>
@@ -316,19 +344,19 @@
             <div class="login-form">
                 <h2>Welcome Back</h2>
                 <p>Choose your role to continue</p>
-                
+
                 <div class="role-selection">
-                    <button class="role-btn" onclick="setRole('consumer')">
+                    <button class="role-btn" data-role="consumer" onclick="setRole('consumer', event)">
                         <i class="fas fa-shopping-bag"></i>
                         <span>Consumer</span>
                         <small>Browse and purchase artisan products</small>
                     </button>
-                    <button class="role-btn" onclick="setRole('artisan')">
+                    <button class="role-btn" data-role="artisan" onclick="setRole('artisan', event)">
                         <i class="fas fa-palette"></i>
                         <span>Artisan</span>
                         <small>Sell your handcrafted items</small>
                     </button>
-                    <button class="role-btn" onclick="setRole('admin')">
+                    <button class="role-btn" data-role="admin" onclick="setRole('admin', event)">
                         <i class="fas fa-cog"></i>
                         <span>Admin</span>
                         <small>Manage the platform</small>
@@ -358,7 +386,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="dashboard-content">
             <div class="products-feed" id="consumer-products">
                 <!-- Products feed will be loaded here -->
@@ -382,11 +410,11 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="dashboard-tabs">
-            <button class="tab-btn active" onclick="showArtisanTab('my-products')">My Products</button>
-            <button class="tab-btn" onclick="showArtisanTab('orders')">Orders</button>
-            <button class="tab-btn" onclick="showArtisanTab('analytics')">Analytics</button>
+            <button class="tab-btn active" onclick="showArtisanTab('my-products', event)">My Products</button>
+            <button class="tab-btn" onclick="showArtisanTab('orders', event)">Orders</button>
+            <button class="tab-btn" onclick="showArtisanTab('analytics', event)">Analytics</button>
         </div>
 
         <div class="dashboard-content">
@@ -414,7 +442,7 @@
         <div class="dashboard-header">
             <h2>Admin Dashboard</h2>
         </div>
-        
+
         <div class="admin-grid">
             <div class="admin-card" onclick="showAdminSection('users')">
                 <i class="fas fa-users"></i>
@@ -464,37 +492,42 @@
                 <input type="number" placeholder="Price (₱)" id="product-price" required>
                 <input type="text" placeholder="Category" id="product-category" required>
                 <textarea placeholder="Your Story (Why did you create this?)" id="product-story" required></textarea>
+                <label for="product-image">Product Image (optional)</label>
                 <input type="file" accept="image/*" id="product-image">
+                <div id="product-image-preview-wrapper" style="margin-top:10px; display:none;">
+                    <img id="product-image-preview" alt="Image preview" style="max-width:100%; height:auto; border-radius:8px; border:1px solid #eee;" />
+                </div>
+                <div id="add-product-message" class="form-message" aria-live="polite" style="margin-top:10px;"></div>
                 <button type="submit">Add Product</button>
             </form>
         </div>
     </div>
 
     <!-- Cart Section -->
-   <section id="cart" class="section">
-    <div class="cart-container">
-        <h2>Shopping Cart</h2>
+    <section id="cart" class="section">
+        <div class="cart-container">
+            <h2>Shopping Cart</h2>
 
-        <div class="cart-items" id="cart-items">
-            <!-- Example cart item with image -->
-            <div class="cart-item">
-                <img src="images/wlis.jpg" alt="Product Image" class="cart-item-img">
-                
-                <div class="cart-item-details">
-                    <h4>Item Name</h4>
-                    <p>₱ Price</p>
+            <div class="cart-items" id="cart-items">
+                <!-- Example cart item with image -->
+                <div class="cart-item">
+                    <img src="images/wlis.jpg" alt="Product Image" class="cart-item-img">
+
+                    <div class="cart-item-details">
+                        <h4>Item Name</h4>
+                        <p>₱ Price</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="cart-summary">
-            <div class="cart-total">
-                <h3>Total: ₱<span id="cart-total">0.00</span></h3>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <h3>Total: ₱<span id="cart-total">0.00</span></h3>
+                </div>
+                <button class="checkout-btn" onclick="showSection('checkout')">Proceed to Checkout</button>
             </div>
-            <button class="checkout-btn" onclick="showSection('checkout')">Proceed to Checkout</button>
         </div>
-    </div>
-</section>
+    </section>
 
 
     <!-- Checkout Section -->
@@ -510,7 +543,7 @@
                     <input type="text" placeholder="State" required>
                     <input type="text" placeholder="ZIP Code" required>
                 </div>
-                
+
                 <div class="checkout-section">
                     <h3>Payment Method</h3>
                     <div class="payment-options">
@@ -519,7 +552,7 @@
                         <label><input type="radio" name="payment" value="cash"> Cash on Delivery</label>
                     </div>
                 </div>
-                
+
                 <button type="submit">Place Order</button>
             </form>
         </div>
@@ -572,8 +605,9 @@
     <section id="about" class="section">
         <div class="about-container">
             <h2>About ArtisanHub</h2>
-            <p>ArtisanHub is a platform dedicated to connecting local artisans with customers who appreciate handcrafted, unique items. We believe in supporting local creativity and sustainable commerce.</p>
-            
+            <p>ArtisanHub is a platform dedicated to connecting local artisans with customers who appreciate
+                handcrafted, unique items. We believe in supporting local creativity and sustainable commerce.</p>
+
             <div class="features-grid">
                 <div class="feature">
                     <i class="fas fa-handshake"></i>
@@ -638,4 +672,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

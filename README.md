@@ -64,6 +64,15 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/eb5b4d0a-07bb-4406-b70f-86f874ccf8e2) and click on Share -> Publish.
 
+## Local demo features
+
+- Product persistence: products you add via the **Add Product** modal are saved to browser localStorage under the key `artisan-saved-products`. To test:
+  1. Sign in as an **Artisan** (select role -> enter any email/password).
+  2. Open **Add Product**, fill fields and optionally upload an image.
+  3. Submit and then reload the page — your product will remain available in the product lists.
+
+Note: This is a demo persistence strategy (localStorage) to help review functionality without a backend. In production, save products via a server-side API.
+
 ## Can I connect a custom domain to my Lovable project?
 
 Yes, you can!

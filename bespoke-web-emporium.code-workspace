@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"name": "bespoke-web-emporium",
+			"path": "."
+		},
+		{
+			"name": "artisan",
+			"path": "../artisan"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501,
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "interactive",
+		"liveServer.settings.multiRootWorkspaceName": "bespoke-web-emporium"
+	}
+}
